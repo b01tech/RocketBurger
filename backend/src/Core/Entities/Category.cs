@@ -1,0 +1,30 @@
+﻿using Core.Shared.Result;
+
+namespace Core.Entities;
+
+public class Category
+{
+    public long Id { get; init; }
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+
+    private const uint MinNameLength = 3;
+
+    protected Category() { }
+
+    private Category(string name, string description)
+    {
+        Name = name;
+        Description = description;
+    }
+
+    public static Result<Category> Create(string name, string? description)
+    {
+        if (string.IsNullOrEmpty(name))
+            return Result<Category>.Failure("Nome não pode ser vazio");
+        if (name.Length < MinNameLength)
+            return Result<Category>.Failure("Nome deve ter mais de 3 caracteres");
+
+        return new Category(name: name, description: description ?? string.Empty);
+    }
+}
