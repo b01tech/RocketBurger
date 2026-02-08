@@ -4,13 +4,13 @@ public class Result<T>
 {
     public bool IsSuccess { get; }
     public T? Data { get; }
-    public Error? Error { get; }
+    public ErrorResult? Error { get; }
 
     private Result(bool isSuccess, T data, IEnumerable<string> errors, int? statusCode = null)
     {
         this.IsSuccess = isSuccess;
         this.Data = data;
-        this.Error = new Error(errors, statusCode);
+        this.Error = new ErrorResult(errors, statusCode);
     }
 
     public static Result<T> Success(T data) => new Result<T>(true, data, default);

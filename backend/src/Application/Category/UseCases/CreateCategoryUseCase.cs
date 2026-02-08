@@ -12,7 +12,7 @@ internal class CreateCategoryUseCase(ICategoryRepository repository, IUnitOfWork
     {
         var resultCategory = Core.Entities.Category.Create(request.Name, request.Description);
         if (!resultCategory.IsSuccess)
-            return Result<CategoryResponse>.Failure(resultCategory.Error.Messages, (int)HttpStatusCode.BadRequest);
+            return Result<CategoryResponse>.Failure(resultCategory.Error!.Errors, (int)HttpStatusCode.BadRequest);
         var category = await repository.AddCategoryAsync(resultCategory.Data!);
         await unitOfWork.CommitAsync();
         return new CategoryResponse(category.Id, category.Name, category.Description ?? string.Empty);
