@@ -8,17 +8,21 @@ public static class CategoryEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
-        app.MapGroup("api/categories").WithTags("Category").MapOpenApi();
+        var group = app.MapGroup("api/categories").WithTags("Category");
 
-        app.MapPost(
+        group
+            .MapPost(
                 "/",
                 async ([FromBody] CreateCategoryRequest request, [FromServices] ICreateCategoryUseCase useCase) =>
                 {
                     var result = await useCase.ExecuteAsync(request);
-                    return result.IsSuccess ? Results.Ok(result.Data) : Results.BadRequest(result.Error);
+                    return result.IsSuccess
+                        ? Results.Created(string.Empty, result.Data)
+                        : Results.BadRequest(result.Error);
                 }
             )
             .WithName("CreateCategory")
-            .WithSummary("Creates a new category");
+            .WithSummary("Creates a new category")
+            .Produces<CategoryResponse>(StatusCodes.Status201Created);
     }
 }
