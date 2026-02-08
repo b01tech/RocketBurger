@@ -485,3 +485,8 @@ $RECYCLE.BIN/
 
 # appsettings
 appsettings.json
+
+# Sqlite database
+*.db
+*.db-shm
+*.db-wal
