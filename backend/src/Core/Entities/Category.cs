@@ -10,7 +10,9 @@ public class Category
 
     private const uint MinNameLength = 3;
 
-    protected Category() { }
+    protected Category()
+    {
+    }
 
     private Category(string name, string description)
     {
@@ -27,4 +29,6 @@ public class Category
 
         return new Category(name: name, description: description ?? string.Empty);
     }
+
+    public void Update(string? description) => Description = description ?? string.Empty;
 }
