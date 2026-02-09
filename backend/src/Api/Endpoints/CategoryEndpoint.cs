@@ -16,9 +16,12 @@ public static class CategoryEndpoint
                 async ([FromBody] CreateCategoryRequest request, [FromServices] ICreateCategoryUseCase useCase) =>
                 {
                     var result = await useCase.ExecuteAsync(request);
-                    return result.IsSuccess
-                        ? Results.Created(string.Empty, result.Data)
-                        : Results.BadRequest(result.Error);
+                    if (result.IsSuccess)
+                        return Results.Created(string.Empty, result.Data);
+
+                    return (result.Error!.StatusCode == StatusCodes.Status409Conflict)
+                        ? Results.Conflict(result.Error.Errors)
+                        : Results.BadRequest(result.Error.Errors);
                 }
             )
             .WithName("CreateCategory")
