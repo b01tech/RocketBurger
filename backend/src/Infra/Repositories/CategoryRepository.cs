@@ -11,6 +11,10 @@ internal class CategoryRepository(RocketBugerDbContext dbContext) : ICategoryRep
     {
         return await dbContext.Categories.AnyAsync(c => c.Name == name);
     }
+    public async Task<Category?> GetCategoryByIdAsync(long id)
+    {
+        return await dbContext.Categories.FindAsync(id);
+    }
 
     public async Task<Category> AddCategoryAsync(Category category)
     {
