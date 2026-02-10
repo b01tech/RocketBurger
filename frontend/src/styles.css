@@ -1,5 +1,60 @@
 @import 'tailwindcss';
 
-* {
-  @apply bg-black text-white;
+@theme {
+  --color-primary: #ff9f1c;
+  --color-primary-hover: #e58e19;
+  --color-secondary: #ffbf69;
+  --color-accent: #cbf3f0;
+  --color-dark: #18181b;
+  --color-dark-light: #3f3f46;
+  --color-light: #ffffff;
+  --color-danger: #ef476f;
+  --color-success: #06d6a0;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Oswald', system-ui, sans-serif;
+}
+
+:root {
+  font-family: var(--font-sans);
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
+
+body {
+  @apply min-h-screen flex flex-col;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  @apply font-bold tracking-wide;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2;
+}
+
+.btn-primary {
+  @apply bg-primary text-dark hover:bg-primary-hover shadow-md shadow-primary/20;
+}
+
+.btn-secondary {
+  @apply bg-dark-light text-light border border-gray-600 hover:border-gray-400 hover:bg-gray-800;
+}
+
+.btn-danger {
+  @apply bg-danger text-white hover:bg-red-600;
+}
+
+.input-field {
+  @apply w-full bg-dark-light border border-gray-700 rounded-lg px-4 py-2 text-light focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all;
+}
+
+.card {
+  @apply bg-dark-light rounded-xl p-6 shadow-lg border border-gray-800;
 }
