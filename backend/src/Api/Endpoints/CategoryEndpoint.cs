@@ -25,7 +25,7 @@ public static class CategoryEndpoint
                 }
             )
             .WithName("CreateCategory")
-            .WithSummary("Creates a new category")
+            .WithSummary("Cria nova categoria")
             .Produces<CategoryResponse>(StatusCodes.Status201Created);
 
         group.MapPatch("api/categories/{id:long}", async ([FromRoute] long id, [FromBody] UpdateCategoryRequest request,
@@ -38,7 +38,7 @@ public static class CategoryEndpoint
                 return Results.BadRequest(result.Error!.Errors);
             })
             .WithName("UpdateCategory")
-            .WithSummary("Updates a category")
+            .WithSummary("Atualiza categoria")
             .Produces<CategoryResponse>(StatusCodes.Status200OK);
     }
 }
