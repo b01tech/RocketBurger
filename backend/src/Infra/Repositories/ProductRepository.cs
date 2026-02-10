@@ -1,48 +1,91 @@
 ﻿using Core.Entities;
 using Core.Repositories;
 using Infra.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositories;
 
 internal class ProductRepository(RocketBugerDbContext dbContext) : IProductRepository
 {
-    public Task<Product?> GetByIdAsync(long id)
+    public async Task<Product?> GetByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        return await dbContext.Products
+            .Include(p => p.Category)
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public Task<List<Product>> GetAllActiveAsync(int page, int pageSize = 25)
+    public async Task<List<Product>> GetAllActiveAsync(int page, int pageSize = 25)
     {
-        throw new NotImplementedException();
+        return await dbContext.Products
+            .AsNoTracking()
+            .Include(p => p.Category)
+            .Where(p => p.IsActive)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
     }
 
-    public Task<Product> AddAsync(Product product)
+    public async Task<Product> AddAsync(Product product)
     {
-        throw new NotImplementedException();
+        await dbContext.Products.AddAsync(product);
+        return product;
     }
 
     public Task<bool> UpdateAsync(Product product)
     {
-        throw new NotImplementedException();
+        dbContext.Products.Update(product);
+        return Task.FromResult(true);
     }
 
     public Task<bool> UpdatePriceAsync(Product product, decimal newPrice)
     {
-        throw new NotImplementedException();
+        var result = product.UpdatePrice(newPrice);
+        if (result.IsSuccess)
+        {
+            dbContext.Products.Update(product);
+            return Task.FromResult(true);
+        }
+        return Task.FromResult(false);
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(long id)
     {
-        throw new NotImplementedException();
+        var product = await dbContext.Products.FindAsync(id);
+        if (product is null) return false;
+
+        product.Deactivate();
+        dbContext.Products.Update(product);
+
+        return true;
     }
 
-    public Task<bool> ActivateAsync(long id)
+    public async Task<bool> ActivateAsync(long id)
     {
-        throw new NotImplementedException();
+        var product = await dbContext.Products.FindAsync(id);
+        if (product is null) return false;
+
+        product.Activate();
+        dbContext.Products.Update(product);
+        return true;
     }
 
-    public Task<bool> ChangeStockAsync(long id, int quantity)
+    public async Task<bool> ChangeStockAsync(long id, int quantity)
     {
-        throw new NotImplementedException();
+        var product = await dbContext.Products.FindAsync(id);
+        if (product is null) return false;
+
+        if (quantity > 0)
+        {
+            var result = product.AddStock(quantity);
+            if (!result.IsSuccess) return false;
+        }
+        else if (quantity < 0)
+        {
+            var result = product.RemoveStock(Math.Abs(quantity));
+            if (!result.IsSuccess) return false;
+        }
+
+        dbContext.Products.Update(product);
+        return true;
     }
 }
