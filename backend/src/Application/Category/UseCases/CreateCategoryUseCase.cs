@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Application.Category.Dtos;
 using Application.Category.UseCases.Interfaces;
 using Core.Repositories;
@@ -16,7 +16,7 @@ internal class CreateCategoryUseCase(ICategoryRepository repository, IUnitOfWork
 
         var categoryExists = await repository.CategoryExistsAsync(request.Name);
         if (categoryExists)
-            return Result<CategoryResponse>.Failure("Categoria já cadastrada", (int)HttpStatusCode.Conflict);
+            return Result<CategoryResponse>.Failure(Core.Shared.Error.ErrorMessages.CATEGORY_ALREADY_EXISTS, (int)HttpStatusCode.Conflict);
 
         var category = await repository.AddCategoryAsync(resultCategory.Data!);
         await unitOfWork.CommitAsync();

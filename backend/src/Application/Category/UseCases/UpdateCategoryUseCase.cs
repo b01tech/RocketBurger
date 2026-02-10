@@ -1,4 +1,4 @@
-﻿using Application.Category.Dtos;
+using Application.Category.Dtos;
 using Application.Category.UseCases.Interfaces;
 using Core.Repositories;
 using Core.Shared.Result;
@@ -11,7 +11,7 @@ internal class UpdateCategoryUseCase(ICategoryRepository repository, IUnitOfWork
     {
         var category = await repository.GetCategoryByIdAsync(id);
         if (category is null)
-            return Result<CategoryResponse>.Failure("Categoria não encontrada");
+            return Result<CategoryResponse>.Failure(Core.Shared.Error.ErrorMessages.CATEGORY_NOT_FOUND);
 
         category.Update(request.Description);
         await unitOfWork.CommitAsync();

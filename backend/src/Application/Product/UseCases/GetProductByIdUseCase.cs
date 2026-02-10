@@ -12,7 +12,7 @@ internal class GetProductByIdUseCase(IProductRepository repository) : IGetProduc
     {
         var product = await repository.GetByIdAsync(id);
         if (product is null)
-            return Result<ProductResponse>.Failure("Produto não encontrado", (int)HttpStatusCode.NotFound);
+            return Result<ProductResponse>.Failure(Core.Shared.Error.ErrorMessages.PRODUCT_NOT_FOUND, (int)HttpStatusCode.NotFound);
 
         return new ProductResponse(
             product.Id,

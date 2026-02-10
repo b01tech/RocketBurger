@@ -12,7 +12,7 @@ internal class CreateProductUseCase(IProductRepository repository, ICategoryRepo
     {
         var category = await categoryRepository.GetCategoryByIdAsync(request.CategoryId);
         if (category is null)
-            return Result<ProductResponse>.Failure("Categoria não encontrada", (int)HttpStatusCode.NotFound);
+            return Result<ProductResponse>.Failure(Core.Shared.Error.ErrorMessages.CATEGORY_NOT_FOUND, (int)HttpStatusCode.NotFound);
 
         var resultPrice = Core.Shared.ValueObjects.Price.Create(request.Price);
         if (!resultPrice.IsSuccess)

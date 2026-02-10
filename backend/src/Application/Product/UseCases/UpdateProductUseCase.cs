@@ -12,11 +12,11 @@ internal class UpdateProductUseCase(IProductRepository repository, ICategoryRepo
     {
         var product = await repository.GetByIdAsync(request.Id);
         if (product is null)
-            return Result<ProductResponse>.Failure("Produto não encontrado", (int)HttpStatusCode.NotFound);
+            return Result<ProductResponse>.Failure(Core.Shared.Error.ErrorMessages.PRODUCT_NOT_FOUND, (int)HttpStatusCode.NotFound);
 
         var category = await categoryRepository.GetCategoryByIdAsync(request.CategoryId);
         if (category is null)
-            return Result<ProductResponse>.Failure("Categoria não encontrada", (int)HttpStatusCode.NotFound);
+            return Result<ProductResponse>.Failure(Core.Shared.Error.ErrorMessages.CATEGORY_NOT_FOUND, (int)HttpStatusCode.NotFound);
 
         var resultUpdate = product.Update(request.Name, request.Description ?? string.Empty, request.ImageUrl ?? string.Empty, request.CategoryId);
         if (!resultUpdate.IsSuccess)

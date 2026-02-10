@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Application.Product.UseCases.Interfaces;
 using Core.Repositories;
 using Core.Shared.Result;
@@ -11,7 +11,7 @@ internal class ActivateProductUseCase(IProductRepository repository, IUnitOfWork
     {
         var success = await repository.ActivateAsync(id);
         if (!success)
-            return Result<bool>.Failure("Produto não encontrado", (int)HttpStatusCode.NotFound);
+            return Result<bool>.Failure(Core.Shared.Error.ErrorMessages.PRODUCT_NOT_FOUND, (int)HttpStatusCode.NotFound);
 
         await unitOfWork.CommitAsync();
         return true;

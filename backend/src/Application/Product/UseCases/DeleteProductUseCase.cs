@@ -11,7 +11,7 @@ internal class DeleteProductUseCase(IProductRepository repository, IUnitOfWork u
     {
         var success = await repository.DeleteAsync(id);
         if (!success)
-            return Result<bool>.Failure("Produto não encontrado", (int)HttpStatusCode.NotFound);
+            return Result<bool>.Failure(Core.Shared.Error.ErrorMessages.PRODUCT_NOT_FOUND, (int)HttpStatusCode.NotFound);
 
         await unitOfWork.CommitAsync();
         return true;
