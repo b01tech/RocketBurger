@@ -8,5 +8,6 @@ public static class EndpointExtension
     {
         HealthApiEndpoint.Map(app);
         CategoryEndpoint.Map(app);
+        ProductEndpoint.Map(app);
     }
 }
