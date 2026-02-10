@@ -23,9 +23,7 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
     {
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-        var errorResult = new ErrorResult("Ocorreu um erro interno no servidor.", context.Response.StatusCode);
-
+        var errorResult = new ErrorResult(Core.Shared.Error.ErrorMessages.SERVER_ERROR, context.Response.StatusCode);
         var json = JsonSerializer.Serialize(errorResult);
         await context.Response.WriteAsync(json);
     }
