@@ -17,6 +17,7 @@ public static class ApplicationExtension
     private static void AddUseCases(IServiceCollection services)
     {
         services.AddScoped<IGetCategoryUseCase, GetCategoryUseCase>();
+        services.AddScoped<IGetByIdUseCase, GetByIdUseCase>();
         services.AddScoped<ICreateCategoryUseCase, CreateCategoryUseCase>();
         services.AddScoped<IUpdateCategoryUseCase, UpdateCategoryUseCase>();
 

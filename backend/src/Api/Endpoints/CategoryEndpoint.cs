@@ -22,6 +22,18 @@ public static class CategoryEndpoint
         .WithSummary("Busca todas as categorias")
         .Produces<IEnumerable<CategoryResponse>>(StatusCodes.Status200OK);
 
+        group.MapGet("/{id:long}", async ([FromRoute] long id, [FromServices] IGetByIdUseCase useCase) =>
+        {
+            var result = await useCase.ExecuteAsync(id);
+            if (result.IsSuccess)
+                return Results.Ok(result.Data);
+
+            return Results.BadRequest(result.Error!.Errors);
+        })
+        .WithName("GetCategoryById")
+        .WithSummary("Busca categoria por ID")
+        .Produces<CategoryResponse>(StatusCodes.Status200OK);
+
         group.MapPost("/", async ([FromBody] CreateCategoryRequest request, [FromServices] ICreateCategoryUseCase useCase) =>
                 {
                     var result = await useCase.ExecuteAsync(request);
