@@ -1,0 +1,80 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="space-y-6 bg-white p-6 rounded-lg shadow-md"
+>
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+    />
+  </div>
+  @if (form.get('name')?.invalid) {
+    <p class="text-red-500 text-sm">Nome é obrigatório</p>
+  }
+  <div>
+    <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      rows="3"
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+    ></textarea>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <label for="price" class="block text-sm font-medium text-gray-700">Preço</label>
+      <input
+        type="number"
+        id="price"
+        formControlName="price"
+        step="0.01"
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+      />
+    </div>
+    @if (form.get('price')?.invalid) {
+      <p class="text-red-500 text-sm">Preço é obrigatório</p>
+    }
+
+    <div>
+      <label for="stockQuantity" class="block text-sm font-medium text-gray-700">Estoque</label>
+      <input
+        type="number"
+        id="stockQuantity"
+        formControlName="stockQuantity"
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+      />
+    </div>
+  </div>
+  @if (form.get('stockQuantity')?.invalid) {
+    <p class="text-red-500 text-sm">Estoque é obrigatório</p>
+  }
+
+  <div>
+    <label for="categoryId" class="block text-sm font-medium text-gray-700">Categoria</label>
+    <select
+      id="categoryId"
+      formControlName="categoryId"
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+    >
+      <option [ngValue]="null">Selecione uma categoria</option>
+      @for (category of categories$ | async; track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex justify-end">
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 cursor-pointer"
+    >
+      Salvar
+    </button>
+  </div>
+</form>
