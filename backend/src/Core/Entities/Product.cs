@@ -16,6 +16,8 @@ public class Product
 
     public Stock Stock { get; private set; } = Stock.Create(0).Data!;
 
+    public bool IsActive { get; private set; } = true;
+
     protected Product()
     {
     }
@@ -88,4 +90,7 @@ public class Product
         Stock = result.Data!;
         return true;
     }
+
+    public void Activate() => IsActive = true;
+    public void Deactivate() => IsActive = false;
 }

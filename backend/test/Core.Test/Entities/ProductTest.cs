@@ -27,6 +27,7 @@ public class ProductTest
         Assert.Equal(price, result.Data.Price);
         Assert.Equal(categoryId, result.Data.CategoryId);
         Assert.Equal(0, result.Data.Stock.Quantity); // Default stock is 0
+        Assert.True(result.Data.IsActive); // Default IsActive is true
     }
 
     [Fact]
@@ -123,5 +124,32 @@ public class ProductTest
         Assert.False(result.IsSuccess);
         Assert.Equal(5, product.Stock.Quantity); // Should remain same
         Assert.Contains("Estoque insuficiente", result.Error!.Errors);
+    }
+
+    [Fact]
+    public void Activate_ShouldSetIsActiveToTrue()
+    {
+        // Arrange
+        var product = Product.Create("Name", "Desc", "Url", Price.Create(10).Data!, 1).Data!;
+        product.Deactivate(); // First ensure it is false
+
+        // Act
+        product.Activate();
+
+        // Assert
+        Assert.True(product.IsActive);
+    }
+
+    [Fact]
+    public void Deactivate_ShouldSetIsActiveToFalse()
+    {
+        // Arrange
+        var product = Product.Create("Name", "Desc", "Url", Price.Create(10).Data!, 1).Data!;
+
+        // Act
+        product.Deactivate();
+
+        // Assert
+        Assert.False(product.IsActive);
     }
 }
