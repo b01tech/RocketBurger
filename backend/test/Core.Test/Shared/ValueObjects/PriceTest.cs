@@ -1,4 +1,5 @@
 using Core.Shared.ValueObjects;
+using Core.Shared.Error;
 
 namespace Core.Test.Shared.ValueObjects;
 
@@ -29,7 +30,7 @@ public class PriceTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Contains("O preço não pode ser negativo", result.Error!.Errors);
+        Assert.Contains(ErrorMessages.PRICE_NEGATIVE, result.Error!.Errors);
     }
 
     [Fact]
@@ -85,10 +86,10 @@ public class PriceTest
 
         // Assert
         Assert.False(resultNegative.IsSuccess);
-        Assert.Contains("A porcentagem de desconto deve estar entre 0 e 100", resultNegative.Error!.Errors);
+        Assert.Contains(ErrorMessages.DISCOUNT_INVALID, resultNegative.Error!.Errors);
 
         Assert.False(resultTooHigh.IsSuccess);
-        Assert.Contains("A porcentagem de desconto deve estar entre 0 e 100", resultTooHigh.Error!.Errors);
+        Assert.Contains(ErrorMessages.DISCOUNT_INVALID, resultTooHigh.Error!.Errors);
     }
 
     [Fact]

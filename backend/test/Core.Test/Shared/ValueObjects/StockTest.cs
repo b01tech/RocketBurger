@@ -1,4 +1,5 @@
 using Core.Shared.ValueObjects;
+using Core.Shared.Error;
 
 namespace Core.Test.Shared.ValueObjects;
 
@@ -29,7 +30,7 @@ public class StockTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Contains("Estoque não pode ser negativo", result.Error!.Errors);
+        Assert.Contains(ErrorMessages.STOCK_NEGATIVE, result.Error!.Errors);
     }
 
     [Fact]

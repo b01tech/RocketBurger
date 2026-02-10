@@ -1,5 +1,6 @@
 using Core.Entities;
 using Core.Shared.ValueObjects;
+using Core.Shared.Error;
 
 namespace Core.Test.Entities;
 
@@ -41,7 +42,7 @@ public class ProductTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Contains("Nome não pode ser vazio", result.Error!.Errors);
+        Assert.Contains(ErrorMessages.NAME_EMPTY, result.Error!.Errors);
     }
 
     [Fact]
