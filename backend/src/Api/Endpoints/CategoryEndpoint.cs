@@ -49,7 +49,7 @@ public static class CategoryEndpoint
             .WithSummary("Cria nova categoria")
             .Produces<CategoryResponse>(StatusCodes.Status201Created);
 
-        group.MapPatch("api/categories/{id:long}", async ([FromRoute] long id, [FromBody] UpdateCategoryRequest request,
+        group.MapPatch("/{id:long}", async ([FromRoute] long id, [FromBody] UpdateCategoryRequest request,
                 [FromServices] IUpdateCategoryUseCase useCase) =>
             {
                 var result = await useCase.ExecuteAsync(id, request);
