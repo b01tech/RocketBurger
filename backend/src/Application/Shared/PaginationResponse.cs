@@ -1,6 +1,8 @@
 namespace Application.Shared;
 
-public record PaginationResponse<T>(int Page, int PageSize, int TotalItems, IEnumerable<T> Items)
+public record PaginationResponse<T>(Pagination Pagination, IEnumerable<T> Items)
 {
-    public int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
+    public int TotalPages => (int)Math.Ceiling((double)Pagination.TotalItems / Pagination.PageSize);
 }
+
+public record Pagination(int Page, int PageSize, int TotalItems);

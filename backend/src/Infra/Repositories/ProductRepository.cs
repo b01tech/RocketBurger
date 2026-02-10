@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+using Core.Entities;
 using Core.Repositories;
 using Infra.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +23,11 @@ internal class ProductRepository(RocketBugerDbContext dbContext) : IProductRepos
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+    }
+
+    public async Task<int> CountActiveAsync()
+    {
+        return await dbContext.Products.CountAsync(p => p.IsActive);
     }
 
     public async Task<Product> AddAsync(Product product)

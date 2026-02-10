@@ -11,7 +11,8 @@ internal class GetProductsUseCase(IProductRepository repository) : IGetProductsU
     public async Task<Result<PaginationResponse<ProductResponse>>> ExecuteAsync(int page, int pageSize)
     {
         var products = await repository.GetAllActiveAsync(page, pageSize);
-        
+        var totalItems = await repository.CountActiveAsync();
+
         var response = products.Select(product => new ProductResponse(
             product.Id,
             product.Name,
@@ -24,9 +25,6 @@ internal class GetProductsUseCase(IProductRepository repository) : IGetProductsU
             product.Stock.Quantity
         )).ToList();
 
-        // TODO: Implement total count fetching in repository
-        int totalItems = response.Count; 
-
-        return new PaginationResponse<ProductResponse>(page, pageSize, totalItems, response);
+        return new PaginationResponse<ProductResponse>(new Pagination(page, pageSize, totalItems), response);
     }
 }

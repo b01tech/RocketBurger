@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+using Core.Entities;
 
 namespace Core.Repositories;
 
@@ -6,6 +6,7 @@ public interface IProductRepository
 {
     Task<Product?> GetByIdAsync(long id);
     Task<List<Product>> GetAllActiveAsync(int page, int pageSize = 25);
+    Task<int> CountActiveAsync();
 
     Task<Product> AddAsync(Product product);
     Task<bool> UpdateAsync(Product product);
