@@ -1,0 +1,13 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold text-light mb-6 text-center">Editar Categoria</h1>
+  @if (category()) {
+    <app-category-form
+      [initialData]="category()"
+      [isEditMode]="true"
+      (save)="onSave($event)"
+      (cancel)="onCancel()"
+    ></app-category-form>
+  } @else {
+    <p class="text-center text-gray-500">Carregando categoria...</p>
+  }
+</div>
