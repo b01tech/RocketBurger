@@ -1,5 +1,6 @@
 using Application.Category.UseCases;
 using Core.Repositories;
+using Core.Shared.Error;
 using Moq;
 using TestUtilities.Builder;
 
@@ -49,7 +50,7 @@ public class UpdateCategoryUseCaseTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("Categoria não encontrada", result.Error!.Errors.First());
+        Assert.Equal(ErrorMessages.CATEGORY_NOT_FOUND, result.Error!.Errors.First());
 
         unitOfWorkMock.Verify(u => u.CommitAsync(), Times.Never);
     }

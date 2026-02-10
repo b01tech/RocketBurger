@@ -1,5 +1,6 @@
-﻿using Application.Category.UseCases;
+using Application.Category.UseCases;
 using Core.Repositories;
+using Core.Shared.Error;
 using Moq;
 using TestUtilities.Builder;
 
@@ -47,7 +48,7 @@ public class CreateCategoryUseCaseTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("Categoria já cadastrada", result.Error!.Errors.First());
+        Assert.Equal(ErrorMessages.CATEGORY_ALREADY_EXISTS, result.Error!.Errors.First());
 
         repositoryMock.Verify(r => r.AddCategoryAsync(It.IsAny<Core.Entities.Category>()), Times.Never);
         unitOfWorkMock.Verify(u => u.CommitAsync(), Times.Never);

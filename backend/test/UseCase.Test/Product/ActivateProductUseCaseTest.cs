@@ -1,5 +1,6 @@
 using Application.Product.UseCases;
 using Core.Repositories;
+using Core.Shared.Error;
 using Moq;
 using Xunit;
 
@@ -26,7 +27,7 @@ public class ActivateProductUseCaseTest
         // Assert
         Assert.True(result.IsSuccess);
         Assert.True(result.Data);
-        
+
         productRepositoryMock.Verify(r => r.ActivateAsync(productId), Times.Once);
         unitOfWorkMock.Verify(u => u.CommitAsync(), Times.Once);
     }
@@ -49,8 +50,8 @@ public class ActivateProductUseCaseTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("Produto não encontrado", result.Error!.Errors.First());
-        
+        Assert.Equal(ErrorMessages.PRODUCT_NOT_FOUND, result.Error!.Errors.First());
+
         unitOfWorkMock.Verify(u => u.CommitAsync(), Times.Never);
     }
 }

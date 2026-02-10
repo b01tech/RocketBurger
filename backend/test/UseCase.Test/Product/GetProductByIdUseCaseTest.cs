@@ -1,5 +1,6 @@
 using Application.Product.UseCases;
 using Core.Repositories;
+using Core.Shared.Error;
 using Moq;
 using TestUtilities.Builder;
 using Xunit;
@@ -47,6 +48,6 @@ public class GetProductByIdUseCaseTest
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("Produto não encontrado", result.Error!.Errors.First());
+        Assert.Equal(ErrorMessages.PRODUCT_NOT_FOUND, result.Error!.Errors.First());
     }
 }
