@@ -7,6 +7,10 @@ namespace Infra.Repositories;
 
 internal class CategoryRepository(RocketBugerDbContext dbContext) : ICategoryRepository
 {
+    public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+    {
+        return await dbContext.Categories.AsNoTracking().ToListAsync();
+    }
     public async Task<bool> CategoryExistsAsync(string name)
     {
         return await dbContext.Categories.AnyAsync(c => c.Name == name);
