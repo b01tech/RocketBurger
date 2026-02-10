@@ -14,6 +14,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'categories',
+    loadChildren: () =>
+      import('./features/category/category.routes').then(
+        (m) => m.categoryRoutes,
+      ),
+  },
+  {
     path: 'promotions',
     loadComponent: () =>
       import('./features/promotion/pages/promotion-page/promotion-page').then(
