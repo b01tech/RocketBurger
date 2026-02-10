@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+using Core.Entities;
 
 namespace Core.Test.Entities;
 
@@ -19,6 +19,8 @@ public class CategoryTest
         Assert.NotNull(result.Data);
         Assert.Equal(name, result.Data.Name);
         Assert.Equal(description, result.Data.Description);
+        Assert.NotNull(result.Data.Products);
+        Assert.Empty(result.Data.Products);
     }
 
     [Fact]

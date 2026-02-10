@@ -8,6 +8,9 @@ public class Category
     public string Name { get; private set; }
     public string Description { get; private set; }
 
+    private readonly List<Product> _products = [];
+    public IReadOnlyCollection<Product> Products => _products.AsReadOnly();
+
     private const uint MinNameLength = 3;
 
     protected Category()
