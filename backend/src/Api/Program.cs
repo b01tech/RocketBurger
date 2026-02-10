@@ -10,6 +10,8 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseGlobalExceptionHandler();
+
 app.UseHttpsRedirection();
 app.MapEndpoints();
 app.UseDocumentarionApi();
