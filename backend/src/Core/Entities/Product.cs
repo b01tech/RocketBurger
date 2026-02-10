@@ -1,5 +1,6 @@
 using Core.Shared.Result;
 using Core.Shared.ValueObjects;
+using Core.Shared.Error;
 
 namespace Core.Entities;
 
@@ -17,6 +18,8 @@ public class Product
     public Stock Stock { get; private set; } = Stock.Create(0).Data!;
 
     public bool IsActive { get; private set; } = true;
+
+    private const uint MinNameLength = 3;
 
     protected Product()
     {
@@ -40,8 +43,9 @@ public class Product
         List<string> errors = [];
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add("Nome não pode ser vazio");
-
+            errors.Add(ErrorMessages.NAME_EMPTY);
+        else if (name.Length < MinNameLength)
+            errors.Add(ErrorMessages.NAME_TOOSHORT);
 
         if (errors.Count > 0)
             return Result<Product>.Failure(errors);
@@ -53,7 +57,7 @@ public class Product
     {
         List<string> errors = [];
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add("Nome não pode ser vazio");
+            errors.Add(ErrorMessages.NAME_EMPTY);
 
         if (errors.Count > 0)
             return Result<bool>.Failure(errors);

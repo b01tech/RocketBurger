@@ -11,7 +11,7 @@ public record Stock
     public static Result<Stock> Create(int quantity)
     {
         if (quantity < 0)
-            return Result<Stock>.Failure("Estoque não pode ser negativo");
+            return Result<Stock>.Failure(Error.ErrorMessages.STOCK_NEGATIVE);
 
         return new Stock(quantity);
     }
@@ -22,7 +22,7 @@ public record Stock
     public Result<Stock> Subtract(int quantity)
     {
         return Quantity < quantity
-            ? Result<Stock>.Failure("Estoque insuficiente")
+            ? Result<Stock>.Failure(Error.ErrorMessages.STOCK_INSUFFICIENT)
             : Create(Quantity - quantity);
     }
 

@@ -1,4 +1,5 @@
-﻿using Core.Shared.Result;
+using Core.Shared.Result;
+using Core.Shared.Error;
 
 namespace Core.Entities;
 
@@ -26,9 +27,9 @@ public class Category
     public static Result<Category> Create(string name, string? description)
     {
         if (string.IsNullOrEmpty(name))
-            return Result<Category>.Failure("Nome não pode ser vazio");
+            return Result<Category>.Failure(ErrorMessages.NAME_EMPTY);
         if (name.Length < MinNameLength)
-            return Result<Category>.Failure("Nome deve ter mais de 3 caracteres");
+            return Result<Category>.Failure(ErrorMessages.NAME_TOOSHORT);
 
         return new Category(name: name, description: description ?? string.Empty);
     }

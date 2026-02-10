@@ -1,4 +1,4 @@
-﻿using Core.Shared.Result;
+using Core.Shared.Result;
 
 namespace Core.Shared.ValueObjects;
 
@@ -14,7 +14,7 @@ public record Price
     public static Result<Price> Create(decimal value)
     {
         if (value < 0)
-            return Result<Price>.Failure("O preço não pode ser negativo");
+            return Result<Price>.Failure(Error.ErrorMessages.PRICE_NEGATIVE);
 
         return new Price(value);
     }
@@ -22,7 +22,7 @@ public record Price
     public Result<Price> ApplyDiscount(decimal percentage)
     {
         if (percentage is < 0 or > 100)
-            return Result<Price>.Failure("A porcentagem de desconto deve estar entre 0 e 100");
+            return Result<Price>.Failure(Error.ErrorMessages.DISCOUNT_INVALID);
 
         var discount = Value * (percentage / 100);
         return new Price(Value - discount);
